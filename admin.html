@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+</head>
+
+<body>
+
+    <h1>🛠 Admin Panel</h1>
+
+    <input type="text" id="name" placeholder="Product Name">
+    <input type="number" id="price" placeholder="Price">
+
+    <button onclick="addProduct()">Add Product</button>
+
+    <hr>
+
+    <div id="products"></div>
+
+    <script>
+
+        let products = JSON.parse(localStorage.getItem("products")) || [];
+
+        function loadProducts() {
+
+            let html = "";
+
+            products.forEach((product, index) => {
+
+                html += `
+        <div style="border:1px solid #000;padding:10px;margin:10px;">
+            <h3>${product.name}</h3>
+            <p>₹${product.price}</p>
+
+            <button onclick="deleteProduct(${index})">
+                Delete ❌
+            </button>
+        </div>
+        `;
+            });
+
+            document.getElementById("products").innerHTML = html;
+        }
+
+        function addProduct() {
+
+            let name = document.getElementById("name").value;
+            let price = document.getElementById("price").value;
+
+            if (name == "" || price == "") {
+                alert("Fill all fields");
+                return;
+            }
+
+            products.push({
+                id: Date.now(),
+                name: name,
+                price: Number(price)
+            });
+
+            localStorage.setItem("products", JSON.stringify(products));
+
+            document.getElementById("name").value = "";
+            document.getElementById("price").value = "";
+
+            loadProducts();
+        }
+
+        function deleteProduct(index) {
+
+            products.splice(index, 1);
+
+            localStorage.setItem("products", JSON.stringify(products));
+
+            loadProducts();
+        }
+
+        loadProducts();
+
+    </script>
+
+</body>
+
+</html>

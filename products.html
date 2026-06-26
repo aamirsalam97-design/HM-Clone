@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <h1>Products</h1>
+
+    <div id="products"></div>
+
+    <script>
+        console.log("Script Started");
+
+        fetch("http://localhost:5000/products")
+            .then(res => res.json())
+            .then(data => {
+
+                console.log(data);
+
+                let html = "";
+
+                data.forEach(product => {
+                    html += `
+                    <div style="border:1px solid #ddd;padding:15px;margin:15px;border-radius:10px;">
+                        <h2>${product.name}</h2>
+                        <h3>₹${product.price}</h3>
+
+                        <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">
+                            Add to Cart 🛒
+                        </button>
+                    </div>
+                    `;
+                });
+
+                document.getElementById("products").innerHTML = html;
+            });
+
+        function addToCart(id, name, price) {
+
+            console.log("Button Clicked", id, name, price);
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            let item = cart.find(p => p.id === id);
+
+            if (item) {
+                item.qty++;
+            } else {
+                cart.push({
+                    id: id,
+                    name: name,
+                    price: price,
+                    qty: 1
+                });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            alert("Product Added Successfully 🛒");
+        }
+    </script>
+
+</body>
+
+</html>

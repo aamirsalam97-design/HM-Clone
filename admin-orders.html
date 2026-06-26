@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Orders</title>
+</head>
+
+<body>
+
+    <h1>📦 Customer Orders</h1>
+
+    <div id="orders"></div>
+
+    <script>
+
+        let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+        let html = "";
+
+        if (orders.length === 0) {
+            html = "<h2>No Orders Yet 😔</h2>";
+        } else {
+
+            orders.forEach(order => {
+
+                html += `
+        <div style="border:1px solid #ccc;padding:15px;margin:15px;border-radius:10px;">
+            <h3>Order ID: ${order.orderId}</h3>
+            <p>Payment ID: ${order.paymentId}</p>
+            <p>Total: ₹${order.amount}</p>
+            <p>Date: ${order.date}</p>
+        </div>
+        `;
+
+            });
+
+        }
+
+        document.getElementById("orders").innerHTML = html;
+
+    </script>
+
+</body>
+
+</html>

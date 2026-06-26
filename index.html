@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+</head>
+
+<body>
+
+    <script>
+        // LOGIN CHECK
+        let user = localStorage.getItem("user");
+
+        if (!user) {
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <h1>Welcome 🏠</h1>
+
+    <button onclick="logout()">Logout</button>
+    <a href="products.html">Go to Products</a>
+    <a href="cart.html">Cart</a>
+
+    <script>
+        function logout() {
+            localStorage.removeItem("user");
+            window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+
+</html>
